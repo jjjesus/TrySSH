@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Renci.SshNet;
+
 namespace TrySSH
 {
     public class Runner
     {
-        public string Run(string hostName, string userName, string password, string cmd)
+        public void Run(string hostName, string userName, string password, string cmd, Action<SshCommand> callback)
         {
-            string results = string.Empty;
+            SshCommand result;
+            int exitStatus = 0;
             using (SshClient ssh = new SshClient(hostName, userName, password))
             {
                 ssh.Connect();
-                var result = ssh.RunCommand(cmd);
-                if (result.ExitStatus == 0) results = result.Result;
+                result = ssh.RunCommand(cmd);
                 ssh.Disconnect();
             }
-            return results;
+            callback(result);
         }
     }
 }
