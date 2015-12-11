@@ -59,13 +59,15 @@ namespace TrySSH
         {
             return new List<string>()
             {
-                "ipmitool -I lan -H 192.168.10.7 -A none sdr elist mcloc",
+                //"ipmitool -I lan -H 192.168.10.7 -A none sdr elist mcloc",
+                // "ipmitool -I lan -H 192.168.10.7 -A none sel elist",
+
                 "ipmitool -I serial -D /dev/ttyS1:115200 sdr elist mcloc",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 sel list",
                 "ipmitool -I serial -D /dev/ttyS1:115200 mc info",
                 "ipmitool -I serial -D /dev/ttyS1:115200 sdr",
                 "ipmitool -I serial -D /dev/ttyS1:115200 fru",
                 "ipmitool -I serial -D /dev/ttyS1:115200 sensor",
-                "ipmitool -I lan -H 192.168.10.7 -A none sel elist",
             };
         }
 
