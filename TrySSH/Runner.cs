@@ -11,11 +11,14 @@ namespace TrySSH
 {
     public class Runner
     {
-        public void Run(string hostName, string userName, string password, string cmd, Action<SshCommand> callback)
+        public string HostName { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+
+        public void Run(string cmd, Action<SshCommand> callback)
         {
             SshCommand result;
-            int exitStatus = 0;
-            using (SshClient ssh = new SshClient(hostName, userName, password))
+            using (SshClient ssh = new SshClient(HostName, UserName, Password))
             {
                 ssh.Connect();
                 result = ssh.RunCommand(cmd);
