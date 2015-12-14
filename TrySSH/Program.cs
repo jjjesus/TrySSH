@@ -62,12 +62,15 @@ namespace TrySSH
                 //"ipmitool -I lan -H 192.168.10.7 -A none sdr elist mcloc",
                 // "ipmitool -I lan -H 192.168.10.7 -A none sel elist",
 
-                "ipmitool -I serial -D /dev/ttyS1:115200 sdr elist mcloc",
-                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 sel list",
-                "ipmitool -I serial -D /dev/ttyS1:115200 mc info",
-                "ipmitool -I serial -D /dev/ttyS1:115200 sdr",
-                "ipmitool -I serial -D /dev/ttyS1:115200 fru",
-                "ipmitool -I serial -D /dev/ttyS1:115200 sensor",
+                // Create an SDR cache
+                // 
+                "ipmitool -I serial -D /dev/ttyS1:115200 sdr dump log.sdr",
+
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr elist mcloc",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 -S log.sdr sel elist",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr mc info",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr fru",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sensor reading \"LDS6523 i12.0\"",
             };
         }
 
