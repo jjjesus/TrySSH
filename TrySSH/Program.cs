@@ -66,11 +66,37 @@ namespace TrySSH
                 // 
                 "ipmitool -I serial -D /dev/ttyS1:115200 sdr dump log.sdr",
 
+                // The command below can be used to build map of sensors to
+                // boards and oids.  The Entity ID field maps to a board.
+                // The ID number is unique and can be manually mapped
+                // to a sensor name.
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr elist",
+
+                // The -c gives CSV output, but, does not include ID numbers
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr type temperature",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr type current",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr type voltage",
+
+                /**
+                The -c gives CSV output, but, does not include ID numbers
+                But, if using the Entity ID in the query, then, -c is OK
+                Entity Numbers are from Appendix H of the SFM6102 manual,
+                which also lists the IPMB addresses:
+
+                Slot    | Module FRU Number | Entity ID | IPMB Address
+                1       |   5               | 193.97    | 130 0x82
+                2       |   6               | 193.98    | 132 0x84
+                3       |   7               | 193.99    | 134 0x86
+                4       |   8               | 193.100   | 136 0x88
+                5       |   9               | 193.101   | 138 0x8A
+                6       |   10              | 193.102   | 140 0x8C
+                **/
+
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr -c sdr entity 193.100",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sdr elist mcloc",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 -S log.sdr sel elist",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr mc info",
-                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr fru",
-                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr sensor reading \"LDS6523 i12.0\"",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr fru print",
             };
         }
 
