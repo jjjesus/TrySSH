@@ -97,6 +97,7 @@ namespace TrySSH
                 "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 -S log.sdr sel elist",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr mc info",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr fru print",
+                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 sel time set \"12/15/2015 00:44:00\"",
             };
         }
 
