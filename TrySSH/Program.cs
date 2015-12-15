@@ -57,7 +57,7 @@ namespace TrySSH
 
         private static List<string> BuildCommands()
         {
-            return new List<string>()
+            var cmdList =  new List<string>()
             {
                 //"ipmitool -I lan -H 192.168.10.7 -A none sdr elist mcloc",
                 // "ipmitool -I lan -H 192.168.10.7 -A none sel elist",
@@ -97,8 +97,24 @@ namespace TrySSH
                 "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 -S log.sdr sel elist",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr mc info",
                 "ipmitool -I serial -D /dev/ttyS1:115200 -S log.sdr fru print",
-                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 sel time set \"12/15/2015 00:44:00\"",
             };
+
+            DateTime now = DateTime.Now;
+            string timestring = now.ToShortDateString() +  " " 
+                + String.Join(":",
+                    now.Hour.ToString(),
+                    now.Minute.ToString(),
+                    now.Second.ToString());
+            string setTimeCmd =
+                "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 "
+               +   "sel time set \"" + timestring + "\"";
+
+            cmdList.Add(setTimeCmd);
+
+            string getTimeCmd = "ipmitool -I serial -D /dev/ttyS1:115200 -m 0x82 -t 0x20 sel time get";
+            cmdList.Add(getTimeCmd);
+
+            return cmdList;
         }
 
         private static string createLogFilename(string outputDir)
